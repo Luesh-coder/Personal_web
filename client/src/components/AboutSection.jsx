@@ -5,7 +5,7 @@ export const AboutSection = () => {
     return (
         <section id="about" className="py-32 px-6 relative"> {/* Increased padding */}
             <div className="containter mx-auto max-w-6xl"> {/* Increased max-width */}
-                <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center"> {/* Larger heading */}
+                <h2 className="text-4xl md:text-6xl font-bold mb-16 text-center"> {/* Larger heading */}
                     About <span className="text-primary">Me</span>
                 </h2>
 
@@ -30,10 +30,10 @@ export const AboutSection = () => {
                                 Get in Touch
                             </a>
                             <a 
-                                href="" 
+                                href="https://docs.google.com/document/d/1dy4fDuPQAEgPKo0iBHzNLAZT14OOMt0E38gzEDTwPBE/edit?usp=sharing" 
                                 className="px-8 py-3 rounded-full border border-primary text-primary hover:bg/10 transition-colors duration-300"
                             >
-                                Dowload Resmume
+                                Resume
                             </a>
                         </div>
                     </div>  
