@@ -1,7 +1,44 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Mail, Linkedin, Instagram, Send } from "lucide-react";
+import emailjs from "@emailjs/browser";
+
 
 export const ContactSection = () => {
+  const formRef = useRef(null);
+  const [status, setStatus] = useState({ type: "", msg: "" });
+  const [isSending, setIsSending] = useState(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    // Honeypot check
+    const formData = new FormData(formRef.current);
+    if (formData.get("company")) return; // bots often fill hidden fields
+
+    try {
+      setIsSending(true);
+      setStatus({ type: "", msg: "" });
+
+      await emailjs.sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY }
+      );
+
+      setStatus({ type: "success", msg: "Thanks! Your message has been sent." });
+      formRef.current.reset();
+    } catch (err) {
+      setStatus({
+        type: "error",
+        msg:
+          "Something went wrong sending your message. Please try again or email me directly.",
+      });
+      // Optional: console.error(err);
+    } finally {
+      setIsSending(false);
+    }
+  };
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl text-lg">
@@ -65,15 +102,29 @@ export const ContactSection = () => {
               Send a Message
             </h3>
 
-            <form className="space-y-6">
+            <form 
+              ref={formRef}
+              onSubmit={onSubmit}
+              className="space-y-6"
+            >
+              {/* Honeypot field (hidden) */}
+              <input
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                className="hidden"
+                aria-hidden="true"
+              />
+
               <div>
                 <label htmlFor="name" className="block text-base font-medium mb-2">
                   Your Name
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="from_name"
+                  name="from_name"
                   required
                   className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
                   placeholder="Lucio Ruben Villena..."
@@ -86,8 +137,8 @@ export const ContactSection = () => {
                 </label>
                 <input
                   type="email"
-                  id="email"
-                  name="email"
+                  id="from_email"
+                  name="from_email"
                   required
                   className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
                   placeholder="johndoe@gmail.com"
@@ -111,9 +162,22 @@ export const ContactSection = () => {
               <button
                 type="submit"
                 className="cosmic-button w-full flex items-center justify-center gap-2"
+                diabled={isSending}
               >
                 Send Message <Send size={16} />
               </button>
+
+              {status.msg && (
+                <p
+                  className={
+                    status.type === "success"
+                      ? "text-green-600 text-center"
+                      : "text-red-600 text-center"
+                  }
+                >
+                  {status.msg}
+                </p>
+              )}
             </form>
           </div>
         </div>
