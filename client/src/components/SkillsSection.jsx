@@ -1,22 +1,10 @@
 import React, { useState } from 'react';
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { 
-    FaJava, 
-    FaPython, 
-    FaHtml5, 
-    FaCss3Alt, 
-    FaJsSquare, 
-    FaReact, 
-    FaNodeJs, 
-    FaGitAlt, 
-    FaGithub, 
-    FaLinux, 
-    FaFigma } from 'react-icons/fa';
-import { 
-    SiTypescript, 
-    SiTailwindcss, 
-    SiMongodb, 
-    SiMysql, 
-    SiPhp } from 'react-icons/si';
+    FaJava, FaPython, FaHtml5, FaCss3Alt, FaJsSquare,
+    FaReact, FaNodeJs, FaGitAlt, FaGithub, FaLinux, FaFigma
+} from 'react-icons/fa';
+import { SiTypescript, SiTailwindcss, SiMongodb, SiMysql, SiPhp } from 'react-icons/si';
 import { VscVscode } from 'react-icons/vsc';
 import { CgCPlusPlus } from 'react-icons/cg';
 
@@ -42,33 +30,35 @@ const skillIcons = {
 };
 
 const skills = [
-    { name: "HTML", category: "Frontend" },
-    { name: "CSS", category: "Frontend" },
-    { name: "JavaScript", category: "Frontend" },
-    { name: "React", category: "Frontend" },
-    { name: "TypeScript", category: "Frontend" },
+    { name: "HTML",         category: "Frontend" },
+    { name: "CSS",          category: "Frontend" },
+    { name: "JavaScript",   category: "Frontend" },
+    { name: "React",        category: "Frontend" },
+    { name: "TypeScript",   category: "Frontend" },
     { name: "Tailwind CSS", category: "Frontend" },
-
-    { name: "Python", category: "Backend" },
-    { name: "Java", category: "Backend" },
-    { name: "C/C++", category: "Backend" },
-    { name: "Node.js", category: "Backend" },
-    { name: "MongoDB", category: "Backend" },
-    { name: "MySQL", category: "Backend" },
-    { name: "PHP", category: "Backend" },
-
-    { name: "Git", category: "Tools" },
-    { name: "GitHub", category: "Tools" },
-    { name: "VS Code", category: "Tools" },
-    { name: "Linux", category: "Tools" },
-    { name: "Figma", category: "Tools" },
+    { name: "Python",       category: "Backend" },
+    { name: "Java",         category: "Backend" },
+    { name: "C/C++",        category: "Backend" },
+    { name: "Node.js",      category: "Backend" },
+    { name: "MongoDB",      category: "Backend" },
+    { name: "MySQL",        category: "Backend" },
+    { name: "PHP",          category: "Backend" },
+    { name: "Git",          category: "Tools" },
+    { name: "GitHub",       category: "Tools" },
+    { name: "VS Code",      category: "Tools" },
+    { name: "Linux",        category: "Tools" },
+    { name: "Figma",        category: "Tools" },
 ];
 
 const categories = ["all", "Frontend", "Backend", "Tools"];
+
 export const SkillsSection = () => {
     const [activeCategory, setActiveCategory] = useState("all");
 
-    // Filter skills based on activeCategory
+    const headingRef  = useScrollReveal();
+    const filtersRef  = useScrollReveal();
+    const gridRef     = useScrollReveal(0.05); // lower threshold — grid is tall
+
     const filteredSkills = activeCategory === "all"
         ? skills
         : skills.filter(skill => skill.category === activeCategory);
@@ -76,33 +66,33 @@ export const SkillsSection = () => {
     return (
         <section id="skills" className="py-32 px-8 relative bg-secondary/30">
             <div className="container mx-auto max-w-6xl">
-                <h2 className='text-4xl md:text-6xl font-bold text-center mb-16'>
+                <h2
+                    ref={headingRef}
+                    className="scroll-reveal text-4xl md:text-6xl font-bold text-center mb-16"
+                >
                     My <span className="text-primary">Skills</span>
                 </h2>
 
-                            {/* Category buttons */}
-                <div className="text-2xl flex flex-wrap justify-center gap-4 mb-12">
-                {categories.map((category) => {
-                    const isActive = activeCategory === category;
-                    return (
-                    <button
-                        key={category}
-                        onClick={() => setActiveCategory(category)}
-                        className={`px-5 py-2 rounded-full capitalize border transition-colors duration-200 cursor-pointer
-                        ${isActive
-                            ? 'bg-primary text-white border-primary shadow-sm'
-                            : 'bg-transparent text-foreground/80 border-transparent hover:bg-primary hover:text-white hover:border-primary focus-visible:bg-primary focus-visible:text-white'
-                        }`}
-                    >
-                        {category}
-                    </button>
-                    );
-                })}
+                <div ref={filtersRef} className="scroll-reveal reveal-delay-2 text-2xl flex flex-wrap justify-center gap-4 mb-12">
+                    {categories.map((category) => {
+                        const isActive = activeCategory === category;
+                        return (
+                            <button
+                                key={category}
+                                onClick={() => setActiveCategory(category)}
+                                className={`px-5 py-2 rounded-full capitalize border transition-colors duration-200 cursor-pointer
+                                ${isActive
+                                    ? 'bg-primary text-white border-primary shadow-sm'
+                                    : 'bg-transparent text-foreground/80 border-transparent hover:bg-primary hover:text-white hover:border-primary focus-visible:bg-primary focus-visible:text-white'
+                                }`}
+                            >
+                                {category}
+                            </button>
+                        );
+                    })}
                 </div>
 
-
-                
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-14">
+                <div ref={gridRef} className="scroll-reveal reveal-delay-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-14">
                     {filteredSkills.map((skill) => (
                         <div key={skill.name} className="flex flex-col items-center">
                             <span className="text-6xl text-primary mb-4">

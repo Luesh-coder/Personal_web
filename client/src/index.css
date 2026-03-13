@@ -49,20 +49,6 @@
       transform: translateY(0);
     }
   }
-
-  @keyframes meteor {
-    0% {
-      transform: rotate(215deg) translateX(0);
-      opacity: 1;
-    }
-    70% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(215deg) translateX(-500px);
-      opacity: 0;
-    }
-  }
 }
 
 @layer base {
@@ -163,6 +149,25 @@
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4);
 }
 
+@utility scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+ 
+/* Stagger helpers — apply alongside scroll-reveal */
+@utility reveal-delay-1 { transition-delay: 0.1s; }
+@utility reveal-delay-2 { transition-delay: 0.2s; }
+@utility reveal-delay-3 { transition-delay: 0.3s; }
+@utility reveal-delay-4 { transition-delay: 0.4s; }
+@utility reveal-delay-5 { transition-delay: 0.5s; }
+ 
+/* Fired by useScrollReveal hook */
+.reveal {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+ 
 #root{
   max-width: 100%;
   margin: 0 auto;

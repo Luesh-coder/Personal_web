@@ -1,19 +1,21 @@
 import React, { useRef, useState } from "react";
 import { Mail, Linkedin, Instagram, Send } from "lucide-react";
 import emailjs from "@emailjs/browser";
-
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export const ContactSection = () => {
   const formRef = useRef(null);
   const [status, setStatus] = useState({ type: "", msg: "" });
   const [isSending, setIsSending] = useState(false);
 
+  const headingRef = useScrollReveal();
+  const leftRef    = useScrollReveal(0.1);
+  const rightRef   = useScrollReveal(0.1);
+
   const onSubmit = async (e) => {
     e.preventDefault();
-
-    // Honeypot check
     const formData = new FormData(formRef.current);
-    if (formData.get("company")) return; // bots often fill hidden fields
+    if (formData.get("company")) return;
 
     try {
       setIsSending(true);
@@ -31,37 +33,34 @@ export const ContactSection = () => {
     } catch (err) {
       setStatus({
         type: "error",
-        msg:
-          "Something went wrong sending your message. Please try again or email me directly.",
+        msg: "Something went wrong sending your message. Please try again or email me directly.",
       });
-      // Optional: console.error(err);
     } finally {
       setIsSending(false);
     }
   };
+
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
       <div className="container mx-auto max-w-5xl text-lg">
-        {/* Title (match ProjectsSection) */}
-        <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center">
+        <h2
+          ref={headingRef}
+          className="scroll-reveal text-3xl md:text-5xl font-bold mb-4 text-center"
+        >
           Get In <span className="text-primary">Touch</span>
         </h2>
         <p className="text-center text-xl text-muted-foreground mb-12">
           Feel free to reach out.
         </p>
 
-        {/* Two-column layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-          {/* Left column: Email + Socials */}
-          <div className="space-y-10">
-            {/* Email */}
+          {/* Left column */}
+          <div ref={leftRef} className="scroll-reveal space-y-10">
             <div className="text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
                 <h3 className="text-2xl font-semibold">Email</h3>
-                {/* icon to the RIGHT of the text */}
                 <Mail className="h-6 w-6 text-primary" />
               </div>
-
               <a
                 href="mailto:luciovillena7@gmail.com"
                 className="text-muted-foreground hover:text-primary transition-colors break-all"
@@ -70,7 +69,6 @@ export const ContactSection = () => {
               </a>
             </div>
 
-            {/* Socials */}
             <div className="text-center md:text-left">
               <h4 className="text-2xl font-semibold mb-4">Connect with Me</h4>
               <div className="flex justify-center md:justify-start gap-4">
@@ -96,18 +94,13 @@ export const ContactSection = () => {
             </div>
           </div>
 
-          {/* Right column: Form */}
-          <div className="bg-card p-8 rounded-lg shadow-xs">
+          {/* Right column */}
+          <div ref={rightRef} className="scroll-reveal reveal-delay-2 bg-card p-8 rounded-lg shadow-xs">
             <h3 className="text-2xl font-semibold mb-6 text-center">
               Send a Message
             </h3>
 
-            <form 
-              ref={formRef}
-              onSubmit={onSubmit}
-              className="space-y-6"
-            >
-              {/* Honeypot field (hidden) */}
+            <form ref={formRef} onSubmit={onSubmit} className="space-y-6">
               <input
                 type="text"
                 name="company"
@@ -162,19 +155,13 @@ export const ContactSection = () => {
               <button
                 type="submit"
                 className="cosmic-button w-full flex items-center justify-center gap-2"
-                diabled={isSending}
+                disabled={isSending}
               >
                 Send Message <Send size={16} />
               </button>
 
               {status.msg && (
-                <p
-                  className={
-                    status.type === "success"
-                      ? "text-green-600 text-center"
-                      : "text-red-600 text-center"
-                  }
-                >
+                <p className={status.type === "success" ? "text-green-600 text-center" : "text-red-600 text-center"}>
                   {status.msg}
                 </p>
               )}
