@@ -9,7 +9,7 @@ const projects = [
     description: "AI travel itinerary planner built using MERN Stack",
     image: "/projects/travelinggenie.png",
     tags: ["MongoDB", "Express.js", "React.js", "Node.js", "TailwindCSS", "Gemini"],
-    demoUrl: "http://travelinggenie.com",
+    demoUrl: "#",
     githubUrl: "https://github.com/jermachong/COP4331_LP",
   },
   {

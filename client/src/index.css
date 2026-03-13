@@ -49,6 +49,20 @@
       transform: translateY(0);
     }
   }
+
+  @keyframes meteor {
+    0% {
+      transform: rotate(215deg) translateX(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(215deg) translateX(-500px);
+      opacity: 0;
+    }
+  }
 }
 
 @layer base {
@@ -57,18 +71,23 @@
     --foreground: 222 47% 11%;
     --card: 0 0% 100%;
 
-    --primary: 0 80% 60%;
+    /* rgb(200, 0, 0) = hsl(0, 100%, 39.2%) */
+    --primary: 0 100% 44.1%;
     --primary-foreground: 210 40% 98%;
 
     --border: 214 32% 91%;
   }
 
   .dark {
-    --background: 222 47% 4%;
+    /* Pure black background */
+    --background: 0 0% 0%;
     --foreground: 213 31% 91%;
 
-    --card: 222 47% 8%;
-    --primary: 0 80% 60%;
+    /* Slightly lifted card so it's visible against pure black */
+    --card: 0 0% 6%;
+
+    /* rgb(200, 0, 0) = hsl(0, 100%, 39.2%) */
+    --primary: 0 100% 44.1%;
     --primary-foreground: 213 31% 91%;
 
     --border: 217 33% 20%;
@@ -114,13 +133,12 @@
 
 @utility text-glow{
   @apply relative;
-  /* Soft red glow */
+  /* rgb(252, 0, 0) glow */
   text-shadow:
-    0 0 6px rgba(239,68,68,0.6),
-    0 0 14px rgba(239,68,68,0.45),
-    0 0 22px rgba(239,68,68,0.35);
+    0 0 6px rgba(225, 0, 0, 0.6),
+    0 0 14px rgba(225, 0, 0, 0.45),
+    0 0 22px rgba(225, 0, 0, 0.35);
 }
-
 
 @utility card-hover{
   @apply transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg;
@@ -135,7 +153,7 @@
 
 @utility cosmic-button{
   @apply px-6 py-2 rounded-full bg-primary text-primary-foreground font-medium
-    transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+    transition-all duration-300 hover:shadow-[0_0_10px_rgba(225,0,0,0.5)]
     hover:scale-105 active:scale-95;
 }
 
@@ -149,25 +167,24 @@
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4);
 }
 
+/* ─── Scroll-reveal ──────────────────────────────────────────────────────── */
 @utility scroll-reveal {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
- 
-/* Stagger helpers — apply alongside scroll-reveal */
+
 @utility reveal-delay-1 { transition-delay: 0.1s; }
 @utility reveal-delay-2 { transition-delay: 0.2s; }
 @utility reveal-delay-3 { transition-delay: 0.3s; }
 @utility reveal-delay-4 { transition-delay: 0.4s; }
 @utility reveal-delay-5 { transition-delay: 0.5s; }
- 
-/* Fired by useScrollReveal hook */
+
 .reveal {
   opacity: 1 !important;
   transform: translateY(0) !important;
 }
- 
+
 #root{
   max-width: 100%;
   margin: 0 auto;
