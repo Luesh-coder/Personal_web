@@ -185,6 +185,12 @@
   transform: translateY(0) !important;
 }
 
+/* Add to index.css */
+@utility section-overlay {
+  @apply relative;
+  background: rgba(0, 0, 0, 0.45);
+}
+
 #root{
   max-width: 100%;
   margin: 0 auto;
